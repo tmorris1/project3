@@ -138,8 +138,6 @@ def huffman_encode(in_file, out_file):
             s += code[ord(char)]
     hb_writer.write_code(s)
     hb_writer.close()
-    print(tree)
-    print(s)
-huffman_encode("txt1", "out2")
+huffman_encode("txt1", "out")
 #huffman_encode("txt2", "out2")
 
