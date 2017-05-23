@@ -136,10 +136,10 @@ def huffman_encode(in_file, out_file):
     for line in my_in:
         for char in line:
             s += code[ord(char)]
-    s += "000"
     hb_writer.write_code(s)
     hb_writer.close()
-
+    print(tree)
+    print(s)
 huffman_encode("txt1", "out2")
 #huffman_encode("txt2", "out2")
 
