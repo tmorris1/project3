@@ -118,26 +118,31 @@ def character_codes(t, s = "", l = array_list.List([None] * 256, 256, 0)):
 # takes in a string representing the name of the input file and a string representing the name of an output file, and writes the text from the input file to the output file using Huffman encoding
 def huffman_encode(in_file, out_file):
     my_in = open(in_file, "r")
+    #first_line = my_in.read(1)
+    #print("doing this")
+    #out = open(out_file, "w")
     hb_writer = HuffmanBitsWriter(out_file)
     s = ""
     counted = count(in_file)
     leaves = sorted_leaves(counted)
-    tree = build_tree(leaves)
-    chars = tree_to_string(tree)
-    #print(tree)
-    #print(chars)
-    #print(len(chars))
-    hb_writer.write_byte(len(chars))
-    code = character_codes(tree).array
-    for i in range(0, array_list.length(counted)):
-        if counted.array[i] > 0:
-            hb_writer.write_byte(i)
-            hb_writer.write_int(counted.array[i])
-    for line in my_in:
-        for char in line:
-            s += code[ord(char)]
-    hb_writer.write_code(s)
+    if leaves != None:
+        tree = build_tree(leaves)
+        chars = tree_to_string(tree)
+        hb_writer.write_byte(len(chars))
+        code = character_codes(tree).array
+        for i in range(0, array_list.length(counted)):
+            if counted.array[i] > 0:
+                hb_writer.write_byte(i)
+                hb_writer.write_int(counted.array[i])
+        for line in my_in:
+            for char in line:
+                s += code[ord(char)]
+        #out.write(s)
+        hb_writer.write_code(s)
     hb_writer.close()
-huffman_encode("txt1", "out")
-#huffman_encode("txt2", "out2")
 
+
+huffman_encode("txt1", "out")
+huffman_encode("txt2", "out2")
+huffman_encode("txt3", "out3")
+huffman_encode("txt4", "out4")
