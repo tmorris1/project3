@@ -122,7 +122,7 @@ def huffman_encode(in_file, out_file):
         my_in = open(in_file, "r")
     except FileNotFoundError:
         print("File not found.")
-        sys.exit(1)
+        return
     #first_line = my_in.read(1)
     #print("doing this")
     #out = open(out_file, "w")
@@ -148,12 +148,92 @@ def huffman_encode(in_file, out_file):
 
 # string string -> string
 # takes in a string representing an input file of a Huffman encoding, a writes the decoded file to the file with the name of the second string
-def decode(in_file, out_file):
-    pass
+def huffman_decode(in_file, out_file):
+    #try:
+    try:
+        hb_reader = HuffmanBitsReader(in_file)
+    except FileNotFoundError:
+        print("File not found.")
+        return
+    out = open(out_file, "w")
+    try:
+        number_of_chars = hb_reader.read_byte()
+    except struct.error:
+        out.close()
+        return
+    counted = array_list.List([0] * 256, 256, 0)
+    total_occurences = 0
+    chars = ""
+    encoded = ""
+    decoded = ""
+    for i in range(0, number_of_chars):
+        char = hb_reader.read_byte()
+        char_occurence = hb_reader.read_int()
+        counted.array[char] = char_occurence
+        total_occurences += char_occurence
+        chars += chr(char)
+    if number_of_chars == 1:
+        decoded += chars * total_occurences
+    else:
+        leaves = sorted_leaves(counted)
+        if leaves != None:
+            tree = build_tree(leaves)
+            code = character_codes(tree).array
+            total_digits = total_ones_and_zeros(code, counted)
+            for i in range(0, total_digits):
+                bit = hb_reader.read_bit()
+                if bit == True:
+                    encoded += "1"
+                else:
+                    encoded += "0"
+        decoded = decode(tree, encoded)
+    out.write(decoded)
+    out.close()
+
+# array -> List
+# counts the total number of ones and zeroes in the encoded file
+def total_ones_and_zeros(code, counted):
+    s = ""
+    index = 0
+    for val in counted.array:
+        if val != 0:
+            s += (code[index] * val)
+        index += 1
+    return(len(s))
 
 
-#huffman_encode("txt1", "out")
-#huffman_encode("txt2", "out2")
-#huffman_encode("txt3", "out3")
-#huffman_encode("txt4", "out4")
-#huffman_encode("blah", "two")
+# HuffmanTree string -> string
+# decodes the string of ones and zeros
+def decode(tree, encoded):
+    decoded = ""
+    temp_tree = tree
+    #print(encoded)
+    for val in range(0, len(encoded) + 1):
+        if type(temp_tree) == Leaf:
+            decoded += chr(temp_tree.char)
+            #print(chr(temp_tree.char))
+           # print(decoded)
+            temp_tree = tree
+        if val < len(encoded) and encoded[val] == "0":
+            temp_tree = temp_tree.left
+        elif val < len(encoded) and encoded[val] == "1":
+            temp_tree = temp_tree.right
+        #print(temp_tree)
+    return decoded
+
+
+
+
+
+
+
+
+huffman_encode("txt1", "out")
+huffman_encode("txt2", "out2")
+huffman_encode("txt3", "out3")
+huffman_encode("txt4", "out4")
+huffman_decode("out", "out_1")
+huffman_decode("out2", "out2_1")
+huffman_decode("out3", "out3_1")
+huffman_decode("out4", "out4_1")
+huffman_decode("blah", "two")
