@@ -1,6 +1,7 @@
 import array_list
 import linked_list
 from huffman_bits_io import *
+import sys
 # string -> List
 # takes in a string representing a file name and returns a List of the number of occurences of each character
 def count(filename):
@@ -117,7 +118,11 @@ def character_codes(t, s = "", l = array_list.List([None] * 256, 256, 0)):
 # string string -> string
 # takes in a string representing the name of the input file and a string representing the name of an output file, and writes the text from the input file to the output file using Huffman encoding
 def huffman_encode(in_file, out_file):
-    my_in = open(in_file, "r")
+    try:
+        my_in = open(in_file, "r")
+    except FileNotFoundError:
+        print("File not found.")
+        sys.exit(1)
     #first_line = my_in.read(1)
     #print("doing this")
     #out = open(out_file, "w")
@@ -141,8 +146,14 @@ def huffman_encode(in_file, out_file):
         hb_writer.write_code(s)
     hb_writer.close()
 
+# string string -> string
+# takes in a string representing an input file of a Huffman encoding, a writes the decoded file to the file with the name of the second string
+def decode(in_file, out_file):
+    pass
 
-huffman_encode("txt1", "out")
-huffman_encode("txt2", "out2")
-huffman_encode("txt3", "out3")
-huffman_encode("txt4", "out4")
+
+#huffman_encode("txt1", "out")
+#huffman_encode("txt2", "out2")
+#huffman_encode("txt3", "out3")
+#huffman_encode("txt4", "out4")
+#huffman_encode("blah", "two")
