@@ -123,9 +123,6 @@ def huffman_encode(in_file, out_file):
     except FileNotFoundError:
         print("File not found.")
         return
-    #first_line = my_in.read(1)
-    #print("doing this")
-    #out = open(out_file, "w")
     hb_writer = HuffmanBitsWriter(out_file)
     s = ""
     counted = count(in_file)
@@ -142,14 +139,12 @@ def huffman_encode(in_file, out_file):
         for line in my_in:
             for char in line:
                 s += code[ord(char)]
-        #out.write(s)
         hb_writer.write_code(s)
     hb_writer.close()
 
 # string string -> string
 # takes in a string representing an input file of a Huffman encoding, a writes the decoded file to the file with the name of the second string
 def huffman_decode(in_file, out_file):
-    #try:
     try:
         hb_reader = HuffmanBitsReader(in_file)
     except FileNotFoundError:
@@ -207,18 +202,14 @@ def total_ones_and_zeros(code, counted):
 def decode(tree, encoded):
     decoded = ""
     temp_tree = tree
-    #print(encoded)
     for val in range(0, len(encoded) + 1):
         if type(temp_tree) == Leaf:
             decoded += chr(temp_tree.char)
-            #print(chr(temp_tree.char))
-           # print(decoded)
             temp_tree = tree
         if val < len(encoded) and encoded[val] == "0":
             temp_tree = temp_tree.left
         elif val < len(encoded) and encoded[val] == "1":
             temp_tree = temp_tree.right
-        #print(temp_tree)
     return decoded
 
 
@@ -228,12 +219,14 @@ def decode(tree, encoded):
 
 
 
-huffman_encode("txt1", "out")
-huffman_encode("txt2", "out2")
-huffman_encode("txt3", "out3")
-huffman_encode("txt4", "out4")
-huffman_decode("out", "out_1")
-huffman_decode("out2", "out2_1")
-huffman_decode("out3", "out3_1")
-huffman_decode("out4", "out4_1")
-huffman_decode("blah", "two")
+#huffman_encode("txt1", "out")
+#huffman_encode("txt2", "out2")
+#huffman_encode("txt3", "out3")
+#huffman_encode("txt4", "out4")
+#huffman_encode("txt5", "out5")
+#huffman_decode("out", "out_1")
+#huffman_decode("out2", "out2_1")
+#huffman_decode("out3", "out3_1")
+#huffman_decode("out4", "out4_1")
+#huffman_decode("out5", "out5_1")
+#huffman_decode("blah", "two")
