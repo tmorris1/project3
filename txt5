@@ -1,4 +1,0 @@
-A priority queue behaves, in some respects, like a standard queue: elements are inserted at one end and extracted at the other.
-Unlike a standard queue, the order in which elements are extracted from a priority queue does not depend strictly on the order in which they were inserted.
-Instead, the elements are ordered by priority so that an element with higher priority will be extracted from the queue before elements of lower priority, even if the higher priority element was added last
-(one can think of a standard queue as being a priority queue where the priority is how recently the element was inserted; more recently would be lower priority).
